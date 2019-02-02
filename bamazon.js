@@ -29,9 +29,10 @@ function displayProducts() {
                 + res[i].price + "|"
                 + res[i].quantity);
         }
+        runSearch();
     });
     console.log(query.sql);
-    runSearch();
+    
 };
 
 function runSearch() {
@@ -40,28 +41,30 @@ function runSearch() {
             name: "action",
             type: "input",
             message: "which product would you like to buy? (choose by ID number)",
-            validate: function (value) {
-                if (isNaN(value) === false) {
-                    return true;
-                }
-                return false;
-            }
-        },
-        {
-            name: "end",
-            type: "input",
-            message: "Enter ending position: ",
-            validate: function (value) {
-                if (isNaN(value) === false) {
-                    return true;
-                }
-                return false;
-            }
+        //     validate: function (value) {
+        //         if (isNaN(value) === false) {
+        //             return true;
+        //         }
+        //         return false;
+        //     }
+        // },
+        // {
+        //     name: "end",
+        //     type: "input",
+        //     message: "Enter ending position: ",
+        //     validate: function (value) {
+        //         if (isNaN(value) === false) {
+        //             return true;
+        //         }
+        //         return false;
+        //     }
         }
     ])
         .then(function (answer) {
             var query = "SELECT id FROM products";
-            connection.query(query, [answer.])
+            connection.query(query, {id: answer.value}, function(err, res){
+                console.log(res);
+            })
         });
     connection.end();
 };
