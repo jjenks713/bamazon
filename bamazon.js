@@ -40,34 +40,41 @@ function displayProducts() {
 function runSearch() {
     inquirer.prompt([
         {
-            name: "action",
+            name: "item",
             type: "input",
             message: "which product would you like to buy? (choose by ID number)",
-        //     validate: function (value) {
-        //         if (isNaN(value) === false) {
-        //             return true;
-        //         }
-        //         return false;
-        //     }
-        // },
-        // {
-        //     name: "end",
-        //     type: "input",
-        //     message: "Enter ending position: ",
-        //     validate: function (value) {
-        //         if (isNaN(value) === false) {
-        //             return true;
-        //         }
-        //         return false;
-        //     }
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                console.log(" !!Please enter an ID NUMBER!!")
+                return false;
+            }
+        },
+        {
+            name: "purchase",
+            type: "input",
+            message: "How many would you like",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                console.log(" !!Please enter a NUMBER!!")
+                return false;
+            }
         }
     ])
         .then(function (answer) {
             var query = "SELECT id FROM products";
             connection.query(query, {id: answer.value}, function(err, res){
-                console.log(res);
+                var input = answer.value;
+                if (err) throw err;
+                for (var i = 0; i < res.length; i++) {
+                    console.log(res[i].input);
+                }
+                // console.log(res);
             })
         });
-    connection.end();
+    // connection.end();
 };
 
