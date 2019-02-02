@@ -1,4 +1,5 @@
 var mysql = require("mysql");
+require("console.table");
 var inquirer = require("inquirer");
 
 connection = mysql.createConnection({
@@ -21,14 +22,15 @@ function displayProducts() {
         console.log("***************");
         console.log("ITEMS FOR SALE!");
         console.log("***************");
-        console.log("ID    | Product    | Department    | Price    | Stock");
-        for (var i = 0; i < res.length; i++) {
-            console.log(res[i].id + "|"
-                + res[i].product + "|"
-                + res[i].department + "|"
-                + res[i].price + "|"
-                + res[i].quantity);
-        }
+        console.table(res);
+        // console.log("ID    | Product    | Department    | Price    | Stock");
+        // for (var i = 0; i < res.length; i++) {
+        //     console.log(res[i].id + "|"
+        //         + res[i].product + "|"
+        //         + res[i].department + "|"
+        //         + res[i].price + "|"
+        //         + res[i].quantity);
+        // }
         runSearch();
     });
     console.log(query.sql);
