@@ -177,36 +177,43 @@ function addProduct() {
             message: "What department is it in?"
         },
         {
-            name: "cost",
+            name: "price",
             type: "input",
             message: "How much does it cost?"
         },
         {
-            name: "amount",
+            name: "quantity",
             type: "input",
             message: "How many would you like to add?"
         },
     ])
         .then(function(answers) {
+            var queryStr = "INSERT INTO products SET ?";
             // insert responses into db
+            connection.query(queryStr, answers, function(){
+                
+                console.log("New product " + answers.product + " has been inserted!\n");
+                // console.log('New product has been added to the inventory under Item ID ' + + results.insertId + '.');
+                // console.log("\n---------------------------------------------------------------------\n");      
+                exitApp();  
+                },
+                
+                
+            // [
+            //     // { product: answers.product }, 
+            //     // { department: answers.department },
+            //     // { cost: answers.price },
+            //     // { quantity: answers.quantity }
+            // ], 
             
-            connection.query("INSERT INTO products SET ?", 
-            [
-                { product: answers.product }, 
-                { department: answers.department },
-                { price: answers.cost },
-                { quantity: answers.amount }
-            ], 
                 function (err, res) {
                 if (err) throw err;
                 // display responses on console
-                    console.table("\nNew product " + answers.product + " has been inserted!\n");
                 // link to exit app function
-                exitApp();
             });
-
         });
 };
+
 
 // exit app function, restarts app or exits secion, prompt list
 function exitApp() {
