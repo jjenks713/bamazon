@@ -23,14 +23,6 @@ function displayProducts() {
         console.log("ITEMS FOR SALE!");
         console.log("***************");
         console.table(res);
-        // console.log("ID    | Product    | Department    | Price    | Stock");
-        // for (var i = 0; i < res.length; i++) {
-        //     console.log(res[i].id + "|"
-        //         + res[i].product + "|"
-        //         + res[i].department + "|"
-        //         + res[i].price + "|"
-        //         + res[i].quantity);
-        // }
         runSearch();
     });
     console.log(query.sql);
@@ -92,7 +84,7 @@ function runSearch() {
                                 }
                             ],
                         );
-                        endApp();
+                        exitApp();
                     };
                 };
             })
@@ -100,24 +92,27 @@ function runSearch() {
 
 };
 
-function endApp() {
-    inquirer.prompt({
-        name: "Thank You!",
-        type: "list",
-        message: "What would you like to do?",
-        choices: [
-            "Buy something else?",
-            "End Session?"
-        ]
-    }).then(function (answer) {
-        switch (answer.action) {
-            case "Buy something else?":
-                displayProducts();
-                break;
-            case "End Session?":
-                connection.end();
-                break;
-        }
+function exitApp(){
+    inquirer
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to do?",
+      choices: [
+        "Buy something else",
+        "exit"
+      ]
+    })
+    .then(function(answer) {
+      switch (answer.action) {
+      case "Buy something else":
+        displayProducts();
+        break;
+          
+      case "exit":
+        connection.end();
+        break;
+      }
     });
-}
+};
 
