@@ -72,17 +72,34 @@ function runSearch() {
                     console.log("\nSorry there is not enough in stock. We only have " + res[0].quantity + ". Please choose another amount\n")
                     runSearch();
                 } else {
-                    console.log("\n" + answer.purchase + " " + res[0].product + " Has been added to your cart" +
-                        "\n\nYour total is $" + res[0].price * answer.purchase);
-                    // for (var i = 0; i < res.length; i++) {
-                    //     prodArr = res[i];
-                    //     console.log("You chose " + prodArr.product);
-                    // }
-                    endApp();
+                    var left = res[0].quantity - answer.purchase;
+                    console.log("\n" + answer.purchase + " " + res[0].product + " have been added to your cart" +
+                        "\n\nYour total is $" + res[0].price * answer.purchase + "\n");
+
+
+                    console.log("-------------------------------------------\n");
+
+                    updateProduct();
+                    function updateProduct() {
+                        var query = connection.query(
+                            "UPDATE products SET ? where ?",
+                            [
+                                {
+                                    quantity: res[0].quantity - answer.purchase
+                                },
+                                {
+                                    id: answer.item
+                                }
+                            ],
+                        );
+                        endApp();
+                    };
                 };
             })
         });
+
 };
+
 function endApp() {
     inquirer.prompt({
         name: "Thank You!",
