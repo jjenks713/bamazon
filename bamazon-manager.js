@@ -76,13 +76,74 @@ function viewInventory() {
             var lowInv = res[i].quantity;
             var name = res[i].product;
             if (lowInv <= 20) {
-                console.log(lowInv + " " + name + "\n" );
+                console.log(lowInv + " " + name + "\n");
             }
         }
         exitApp();
     });
 };
 
+function addToInventory() {
+    connection.query("SELECT * FROM bamazon_db.products;", function (err, res) {
+
+        if (err) throw err;
+        console.log("***************");
+        console.log("ITEMS FOR SALE!");
+        console.log("***************");
+        console.table(res);
+
+
+        inquirer.prompt([
+            {
+                name: "add",
+                type: "input",
+                message: "Which product would you like to update (use ID number)?",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    console.log(" !!Please enter an ID NUMBER!!")
+                    return false;
+                }
+            },
+            {
+                name: "amount",
+                type: "input",
+                message: "How much would you like to add",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    console.log(" !!Please enter a NUMBER!!")
+                    return false;
+                }
+            }
+        ]).then(function (answer) {
+            var query = "SELECT * FROM products WHERE ?";
+            connection.query(query, [{ id: answer.add }, { amount: answer.amount }], function (err, res) {
+                add();
+                function add() {
+                    var q = parseInt(res[0].quantity);
+                    var a = parseInt(answer.amount);
+                    var adding = q + a;
+                    connection.query(
+                        "UPDATE products SET ? where ?",
+                        [
+                            {
+                                quantity: adding
+                            },
+                            {
+                                id: answer.add
+                            }
+                        ],
+                        console.log("\nThe quantity of " + res[0].product + " has been updated to " + adding + "\n")
+                    );
+                    exitApp();
+                };
+            });
+        });
+    });
+};
 
 
 

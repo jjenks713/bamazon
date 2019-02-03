@@ -25,8 +25,6 @@ function displayProducts() {
         console.table(res);
         runSearch();
     });
-    console.log(query.sql);
-
 };
 
 function runSearch() {
@@ -64,7 +62,6 @@ function runSearch() {
                     console.log("\nSorry there is not enough in stock. We only have " + res[0].quantity + ". Please choose another amount\n")
                     runSearch();
                 } else {
-                    var left = res[0].quantity - answer.purchase;
                     console.log("\n" + answer.purchase + " " + res[0].product + " have been added to your cart" +
                         "\n\nYour total is $" + res[0].price * answer.purchase + "\n");
 
@@ -73,7 +70,7 @@ function runSearch() {
 
                     updateProduct();
                     function updateProduct() {
-                        var query = connection.query(
+                        connection.query(
                             "UPDATE products SET ? where ?",
                             [
                                 {
