@@ -145,7 +145,44 @@ function addToInventory() {
     });
 };
 
-
+function addProduct() {
+    inquirer.prompt([
+        {
+            name: "product",
+            type: "input",
+            message: "What product would you like to add?"
+        },
+        {
+            name: "department",
+            type: "input",
+            message: "What department is it in?"
+        },
+        {
+            name: "cost",
+            type: "input",
+            message: "How much does it cost?"
+        },
+        {
+            name: "amount",
+            type: "input",
+            message: "How many would you like to add?"
+        },
+    ]).then(function (answer) {
+        var query = connection.query(
+            "INSERT INTO products SET ?",
+            {
+                // flavor: "Rocky Road",
+                // price: 3.0,
+                // quantity: 50
+            },
+            function (err, res) {
+                console.log(res.affectedRows + " product inserted!\n");
+                // Call updateProduct AFTER the INSERT completes
+                exitApp();
+            }
+        );
+    })
+};
 
 
 
