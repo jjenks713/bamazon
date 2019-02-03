@@ -34,7 +34,7 @@ function displayProducts() {
         runSearch();
     });
     console.log(query.sql);
-    
+
 };
 
 function runSearch() {
@@ -65,16 +65,42 @@ function runSearch() {
         }
     ])
         .then(function (answer) {
-            var query = "SELECT id FROM products";
-            connection.query(query, {id: answer.value}, function(err, res){
-                var input = answer.value;
+            var query = "SELECT * FROM products WHERE ?";
+            connection.query(query, [{ id: answer.item }, { amount: answer.purchase }], function (err, res) {
                 if (err) throw err;
-                for (var i = 0; i < res.length; i++) {
-                    console.log(res[i].input);
-                }
-                // console.log(res);
+                if (answer.purchase > res[0].quantity) {
+                    console.log("\nSorry there is not enough in stock. We only have " + res[0].quantity + ". Please choose another amount\n")
+                    runSearch();
+                } else {
+                    console.log("\n" + answer.purchase + " " + res[0].product + " Has been added to your cart" +
+                        "\n\nYour total is $" + res[0].price * answer.purchase);
+                    // for (var i = 0; i < res.length; i++) {
+                    //     prodArr = res[i];
+                    //     console.log("You chose " + prodArr.product);
+                    // }
+                    endApp();
+                };
             })
         });
-    // connection.end();
 };
+function endApp() {
+    inquirer.prompt({
+        name: "Thank You!",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "Buy something else?",
+            "End Session?"
+        ]
+    }).then(function (answer) {
+        switch (answer.action) {
+            case "Buy something else?":
+                displayProducts();
+                break;
+            case "End Session?":
+                connection.end();
+                break;
+        }
+    });
+}
 
