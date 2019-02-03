@@ -189,17 +189,18 @@ function addProduct() {
     ])
         .then(function(answers) {
             // insert responses into db
-            connection.connect("INSERT INTO products SET ?", 
+            
+            connection.query("INSERT INTO products SET ?", 
             [
                 { product: answers.product }, 
                 { department: answers.department },
-                { cost: answers.cost },
+                { price: answers.cost },
                 { quantity: answers.amount }
             ], 
                 function (err, res) {
                 if (err) throw err;
                 // display responses on console
-                    console.log("New product " + answer.product + " has been inserted!\n");
+                    console.table("\nNew product " + answers.product + " has been inserted!\n");
                 // link to exit app function
                 exitApp();
             });
