@@ -167,29 +167,23 @@ function addProduct() {
             type: "input",
             message: "How many would you like to add?"
         },
-    ]).then(function (answer) {
-        var query = connection.query(
-            "INSERT INTO products SET ?",
-            {
-                // flavor: "Rocky Road",
-                // price: 3.0,
-                // quantity: 50
-            },
-            function (err, res) {
-                console.log(res.affectedRows + " product inserted!\n");
-                // Call updateProduct AFTER the INSERT completes
+    ])
+        .then(function(answers) {
+            connection.connect("INSERT INTO products SET ?", 
+            [
+                { product: answers.product }, 
+                { department: answers.department },
+                { cost: answers.cost },
+                { quantity: answers.amount }
+            ], 
+                function (err, res) {
+                if (err) throw err;
+                    console.log("New product " + answer.product + " has been inserted!\n");
                 exitApp();
-            }
-        );
-    })
+            });
+
+        });
 };
-
-
-
-
-
-
-
 
 function exitApp() {
     inquirer
