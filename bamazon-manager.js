@@ -191,25 +191,13 @@ function addProduct() {
             var queryStr = "INSERT INTO products SET ?";
             // insert responses into db
             connection.query(queryStr, answers, function(){
-                
-                console.log("New product " + answers.product + " has been inserted!\n");
-                // console.log('New product has been added to the inventory under Item ID ' + + results.insertId + '.');
-                // console.log("\n---------------------------------------------------------------------\n");      
+                // display responses on console             
+                console.log("\nNew product " + answers.product + " has been inserted!\n");
+                // link to exit app function
                 exitApp();  
                 },
-                
-                
-            // [
-            //     // { product: answers.product }, 
-            //     // { department: answers.department },
-            //     // { cost: answers.price },
-            //     // { quantity: answers.quantity }
-            // ], 
-            
                 function (err, res) {
                 if (err) throw err;
-                // display responses on console
-                // link to exit app function
             });
         });
 };

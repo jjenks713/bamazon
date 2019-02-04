@@ -64,7 +64,11 @@ function runSearch() {
             var query = "SELECT * FROM products WHERE ?";
             connection.query(query, [{ id: answer.item }, { amount: answer.purchase }], function (err, res) {
                 if (err) throw err;
+                console.log(res.length - 1);
                 // if to chech input is les than quantity
+                // if (answer.purchase > res.id.length - 1) {
+                //     console.log("Sorry that product does not exist, Please choose an ID # from the table");
+                // }
                 if (answer.purchase > res[0].quantity) {
                     console.log("\nSorry there is not enough in stock. We only have " + res[0].quantity + ". Please choose another amount\n")
                     runSearch();
