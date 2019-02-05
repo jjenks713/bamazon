@@ -33,4 +33,4 @@ https://drive.google.com/file/d/16x_8Qol4uBEC-RJ8EGpaWdIDOC9vdcju/view
 ___
 
 ## Contributors
-[Josh Jenkin] https://github.com/jjenks713
+[Josh Jenkin](https://github.com/jjenks713)
