@@ -28,7 +28,7 @@ Note: type `node bamazon-manager.js` to access the manager portal
 ___
 
 ### Run Video
-Here is a [video](https://drive.google.com/file/d/16x_8Qol4uBEC-RJ8EGpaWdIDOC9vdcju/view) to show how the application works. Enjoy
+Here is a [video](https://drive.google.com/file/d/16x_8Qol4uBEC-RJ8EGpaWdIDOC9vdcju/view) to show how the application works. Enjoy!
 
 ___
 
