@@ -64,12 +64,12 @@ function runSearch() {
             var query = "SELECT * FROM products WHERE ?";
             connection.query(query, [{ id: answer.item }, { amount: answer.purchase }], function (err, res) {
                 if (err) throw err;
-                console.log(res.length - 1);
-                // if to chech input is les than quantity
-                // if (answer.purchase > res.id.length - 1) {
-                //     console.log("Sorry that product does not exist, Please choose an ID # from the table");
-                // }
-                if (answer.purchase > res[0].quantity) {
+                if (res[0] === undefined) {
+                    console.log("\nSorry that product does not exist, Please choose an ID # from the table\n");
+                        runSearch();
+                }
+
+                else if (answer.purchase > res[0].quantity) {
                     console.log("\nSorry there is not enough in stock. We only have " + res[0].quantity + ". Please choose another amount\n")
                     runSearch();
                 } else {
@@ -103,27 +103,27 @@ function runSearch() {
 };
 
 // exit app, returns to home screen or exits app
-function exitApp(){
+function exitApp() {
     inquirer
-    .prompt({
-      name: "action",
-      type: "list",
-      message: "What would you like to do?",
-      choices: [
-        "Buy something else",
-        "exit"
-      ]
-    })
-    .then(function(answer) {
-      switch (answer.action) {
-      case "Buy something else":
-        displayProducts();
-        break;
-          
-      case "exit":
-        connection.end();
-        break;
-      }
-    });
+        .prompt({
+            name: "action",
+            type: "list",
+            message: "What would you like to do?",
+            choices: [
+                "Buy something else",
+                "exit"
+            ]
+        })
+        .then(function (answer) {
+            switch (answer.action) {
+                case "Buy something else":
+                    displayProducts();
+                    break;
+
+                case "exit":
+                    connection.end();
+                    break;
+            }
+        });
 };
 
